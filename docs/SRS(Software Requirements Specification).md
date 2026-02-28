@@ -1,4 +1,4 @@
-# SRS: Simple ATM Controller System
+# SRS(Software Requirements Specification): Simple ATM Controller System
 
 ## 1. Introduction
 ### 1.1 Project Overview
