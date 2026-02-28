@@ -1,11 +1,14 @@
 # Simple ATM Controller System
 
-이 프로젝트는 객체지향 설계 원칙을 준수하여 개발된 **모듈형 ATM 컨트롤러 시스템**입니다. 단순한 기능 구현을 넘어, 실제 은행 시스템의 확장성과 보안성을 고려한 아키텍처를 지향합니다.
+이 프로젝트는 객체지향 설계 원칙을 준수하여 개발된 **모듈형 ATM 컨트롤러 시스템**입니다. 단순한 기능 구현을 넘어, 실제 은행 시스템의 확장성과 안정성을 고려한 아키텍처를 지향합니다.
+
+This project is a modular ATM controller system developed in accordance with Object-Oriented Programming (OOP) principles. Beyond basic functionality, the architecture is designed with a focus on scalability and system stability to reflect the requirements of real-world banking environments.
 
 ---
 
 ## 🚀 설계 문서 (Design Artifacts)
 시스템의 상세 요구사항과 설계 구조는 아래 문서에서 확인하실 수 있습니다.
+Detailed requirements and architectural specifications are available in the documents below:
 * **[SRS (Software Requirements Specification)](https://github.com/swjeon2/ATM-controller/blob/main/docs/SRS(Software%20Requirements%20Specification).md)**
 * **[SDD (Software Design Description)](https://github.com/swjeon2/ATM-controller/blob/main/docs/SDD(Software%20Design%20Description).md)**
 
@@ -27,6 +30,25 @@
 * **자동 로그아웃 (Auto-Logout)**: 입금 및 출금과 같은 물리적 거래 완료 후 보안을 위해 즉시 세션을 종료하고 카드를 배출합니다.
 * **카드 유효성 검사**: DB에 등록되지 않은 카드가 삽입될 경우 즉시 차단하여 불필요한 인증 과정을 방지합니다.
 
+### 1. Basic Financial Transactions
+Balance Inquiry: Check the real-time balance of a selected account.
+
+Deposit: Deposit cash in $1 increments; successful transactions are immediately updated in the database.
+
+Withdrawal: Processes withdrawals after simultaneously verifying the account balance and the ATM's physical cash inventory.
+
+### 2. Flexible Account Mapping (N:M Mapping)
+Multi-account Support: Allows a single card to be linked to multiple accounts for user selection.
+
+Shared Account Support: Different cards can share access to a specific account (e.g., joint accounts), ensuring real-time balance synchronization across all associated cards.
+
+### 3. Security
+PIN Protection: Utilizes the SHA-256 one-way hash algorithm to securely handle and verify user PINs without storing plain text.
+
+Auto-Logout Policy: For session stability and security, the system automatically terminates the session and ejects the card immediately after any physical transaction (Deposit/Withdraw).
+
+Card Validation: Prevents invalid states by immediately rejecting cards not registered in the database before the authentication process begins.
+
 ---
 
 ## 🏗️ 시스템 아키텍처 (Architecture)
@@ -34,9 +56,9 @@
 본 시스템은 **Modular Layered Architecture**를 채택하여 각 계층 간의 의존성을 최소화했습니다.
 
 
-* **Core Controller**: 상태 머신(FSM)을 기반으로 전체 거래 흐름을 제어합니다.
-* **Abstraction Layer**: 인터페이스(ABC)를 통해 은행 서비스와 하드웨어를 추상화하여, 실제 하드웨어가 없어도 Mock 객체로 테스트가 가능합니다.
-* **Persistence Layer**: 인메모리 DB를 통해 데이터의 일관성을 유지합니다.
+* **Core Controller**: 상태 머신(FSM)을 기반으로 전체 거래 흐름을 제어합니다. Manages the entire transaction flow based on a Finite State Machine (FSM), ensuring the system remains in a stable and valid state at all times
+* **Abstraction Layer**: 인터페이스(ABC)를 통해 은행 서비스와 하드웨어를 추상화하여, 실제 하드웨어가 없어도 Mock 객체로 테스트가 가능합니다. 
+  Uses Python’s abc (Abstract Base Classes) to decouple business logic from external dependencies like Bank APIs and Hardware (Cash Bin). This enables rigorous testing with Mock objects even without physical hardware.
 
 ---
 
