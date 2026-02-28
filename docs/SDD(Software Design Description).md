@@ -81,3 +81,11 @@ class ATMController:
     def withdraw(self, amount: int) -> bool:
         """Executes withdrawal and triggers automatic logout (IDLE)."""
         pass
+```
+
+## 5. Security & Integrity Logic
+**PIN Isolation**: The controller only receives a boolean result from the BankService.
+
+**Automatic Logout**: Following a physical transaction (DEPOSIT or WITHDRAW), the session is immediately terminated to prevent unauthorized reuse.
+
+**Double Verification**: Withdrawal requires confirmation from both BankService (balance) and CashBin (stock).
