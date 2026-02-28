@@ -1,5 +1,5 @@
 import hashlib
-from models import Account
+from .models import Account
 
 class SimpleATMDatabase:
     def __init__(self):

@@ -1,6 +1,6 @@
 from enum import Enum, auto
-from interfaces import BankService, CashBin
-from models import Card, Account
+from .interfaces import BankService, CashBin
+from .models import Card, Account
 
 class ATMState(Enum):
     IDLE = auto()
@@ -30,7 +30,7 @@ class ATMController:
             self.state = ATMState.AUTHENTICATING
             return True
         return False
-        
+
     def enter_pin(self, pin: str) -> bool:
         if self.state != ATMState.AUTHENTICATING:
             return False

@@ -1,5 +1,5 @@
 import sys
-from controller import ATMController, ATMState
+from .controller import ATMController, ATMState
 
 class ConsoleUI:
     def __init__(self, controller: ATMController):

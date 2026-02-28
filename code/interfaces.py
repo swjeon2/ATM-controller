@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import List
-from models import Account
+from .models import Account
 
 class BankService(ABC):
     @abstractmethod
