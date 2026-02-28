@@ -20,9 +20,11 @@ class ATMController:
         self.accounts = []
         self.selected_account = None
 
-    def insert_card(self, card: Card):
+    def insert_card(self, card_number: str):
+        """UI에서 받은 문자열을 Card 객체로 변환하여 저장합니다"""
         if self.state == ATMState.IDLE:
-            self.current_card = card
+            # 문자열을 Card 객체로 생성
+            self.current_card = Card(card_number=card_number) 
             self.state = ATMState.AUTHENTICATING
             return True
         return False
