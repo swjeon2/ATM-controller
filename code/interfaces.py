@@ -1,11 +1,10 @@
 from abc import ABC, abstractmethod
 from typing import List
-from models import Account, Card
+from models import Account
 
 class BankService(ABC):
     @abstractmethod
     def verify_pin(self, card_number: str, pin: str) -> bool:
-        """은행은 PIN 번호를 주지 않고 맞는지 여부만 반환함"""
         pass
 
     @abstractmethod
