@@ -33,7 +33,7 @@ class ConsoleUI:
                     if self.atm.insert_card(card_num):
                         print(">> Card recognized.")
                     else:
-                        print(">> Error: System is busy.")
+                        print(">> Error: Invalid Card.")
 
                 # 2. PIN 번호 인증 상태
                 elif self.atm.state == ATMState.AUTHENTICATING:

@@ -11,6 +11,9 @@ class BankServiceWithDB(BankService):
     def __init__(self, db: SimpleATMDatabase):
         self.db = db
 
+    def validate_card(self, card_number: str) -> bool:
+        return self.db.get_card_info(card_number) is not None
+        
     def verify_pin(self, card_number: str, pin: str) -> bool:
         """
         DB를 통해 PIN 해시값을 비교합니다. 컨트롤러에는 성공 여부(bool)만 반환

@@ -21,14 +21,16 @@ class ATMController:
         self.selected_account = None
 
     def insert_card(self, card_number: str):
-        """UI에서 받은 문자열을 Card 객체로 변환하여 저장합니다"""
         if self.state == ATMState.IDLE:
-            # 문자열을 Card 객체로 생성
-            self.current_card = Card(card_number=card_number) 
+            # 은행 서비스에 해당 카드가 실존하는지 먼저 확인
+            if hasattr(self.bank, 'validate_card') and not self.bank.validate_card(card_number):
+                return False # 유효하지 않으면 상태를 바꾸지 않고 False 리턴
+                
+            self.current_card = Card(card_number=card_number)
             self.state = ATMState.AUTHENTICATING
             return True
         return False
-
+        
     def enter_pin(self, pin: str) -> bool:
         if self.state != ATMState.AUTHENTICATING:
             return False
