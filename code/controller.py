@@ -60,9 +60,9 @@ class ATMController:
         if self.state != ATMState.TRANSACTION_MENU or amount <= 0:
             return False
         
+        # 은행 서비스가 성공하면 이미 객체 잔액이 바뀌어 있습니다.
         if self.bank.update_balance(self.selected_account.account_id, amount):
-            self.selected_account.balance += amount
-            self.eject_card() # 보안상 자동 로그아웃
+            self.eject_card() # 보안 자동 로그아웃
             return True
         return False
 
@@ -70,12 +70,10 @@ class ATMController:
         if self.state != ATMState.TRANSACTION_MENU or amount <= 0:
             return False
 
-        # 잔액 확인 및 현금함 재고 확인
         if self.selected_account.balance >= amount and self.cash_bin.has_enough_cash(amount):
             if self.bank.update_balance(self.selected_account.account_id, -amount):
                 self.cash_bin.dispense(amount)
-                self.selected_account.balance -= amount
-                self.eject_card() # 보안상 자동 로그아웃
+                self.eject_card() # 보안 자동 로그아웃
                 return True
         return False
 

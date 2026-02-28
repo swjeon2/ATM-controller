@@ -18,23 +18,16 @@ class BankServiceWithDB(BankService):
         return self.db.verify_pin_hash(card_number, pin)
 
     def get_accounts(self, card_number: str):
-        """
-        카드 번호에 매핑된 모든 계좌 객체 리스트를 DB에서 가져옴
-        """
-        card_info = self.db.get_card_info(card_number)
-        if not card_info:
-            return []
-        
-        # N:M 관계: 카드에 등록된 모든 계좌 ID를 순회하며 계좌 객체를 수집
-        return [self.db.get_account(aid) for aid in card_info["acc_ids"] if self.db.get_account(aid)]
+            card_info = self.db.get_card_info(card_number)
+            if not card_info: return []
+            
+            # [핵심] DB에서 get_account()를 통해 '원본 객체'를 리스트에 담아 반환합니다.
+            return [self.db.get_account(aid) for aid in card_info["acc_ids"] if self.db.get_account(aid)]
 
     def update_balance(self, account_id: str, amount: int) -> bool:
-        """
-        계좌 풀(Account Pool)에 있는 실제 계좌 객체의 잔액을 업데이트 함
-        """
         account = self.db.get_account(account_id)
         if account:
-            # 잔액이 마이너스가 되지 않도록 하는 검사는 컨트롤러(비즈니스 로직)에서 수행
+            # 원본 객체의 값을 직접 수정합니다.
             account.balance += amount
             return True
         return False
