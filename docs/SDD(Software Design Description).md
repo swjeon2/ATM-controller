@@ -42,13 +42,14 @@ The following diagram illustrates the workflow, emphasizing the automatic logout
 | :--- | :--- | :--- | :--- |
 | `IDLE` | `insert_card` | - | `AUTHENTICATING` |
 | `AUTHENTICATING` | `enter_pin` | `verify_pin == True` | `ACCOUNT_SELECTION` |
-| `ACCOUNT_SELECTION`| `select_account` | Valid Account ID | `TRANSACTION_MENU` |
+| `ACCOUNT_SELECTION`| `select_account`| Valid Account ID | `TRANSACTION_MENU` |
 | **`TRANSACTION_MENU`**| `choose_inquiry` | - | `VIEW_BALANCE` |
-| **`VIEW_BALANCE`** | `inquiry_complete`| User clicks "Back" | **`TRANSACTION_MENU`** |
-| **`TRANSACTION_MENU`**| `choose_deposit` | Transaction Success | **`IDLE` (Auto-Logout)** |
-| **`TRANSACTION_MENU`**| `choose_withdraw`| Transaction Success | **`IDLE` (Auto-Logout)** |
+| **`VIEW_BALANCE`** | `back / confirm` | User interaction | **`TRANSACTION_MENU`** |
+| **`TRANSACTION_MENU`**| `choose_deposit` | - | `DEPOSIT` |
+| **`DEPOSIT`** | `deposit_complete`| Transaction Success | **`IDLE` (Auto-Logout)** |
+| **`TRANSACTION_MENU`**| `choose_withdraw`| - | `WITHDRAW` |
+| **`WITHDRAW`** | `withdraw_complete`| Transaction Success | **`IDLE` (Auto-Logout)** |
 | `ANY` | `cancel / eject` | User interaction | `IDLE` |
-
 ---
 
 ## 4. Controller API (Method Signatures)
